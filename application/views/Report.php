@@ -16,7 +16,7 @@ echo form_open ('send_report/'  . $songID, $attributes);
 <ul style = 'list-style-type: none;'>
 <li class="notranslate      ">
 <label class="desc" for="name">
-Name:
+Your Name:
 <span id="req_4" class="req">*</span>
 </label>
 <div>
@@ -28,7 +28,7 @@ Name:
 
 <li  class="notranslate      ">
 <label class="desc" for="email">
-Email:
+Your Email:
 <span id="req_1" class="req">*</span>
 </label>
 <div>
@@ -38,7 +38,7 @@ Email:
 
 <li class="notranslate      ">
 <label class="desc"  for="phone">
-Phone Number:
+Your Phone Number:
 
 </label>
 <div>
@@ -57,8 +57,9 @@ Subject:
 
 <li class="notranslate      ">
 <label class="desc" for="message">
-Kasoro (Tafadhali zielezee kasoro vizuri na kikamilifu):
-<span id="req_1" class="req">*</span>
+
+Kasoro (Tafadhali zielezee kasoro vizuri na kikamilifu): <span id="req_1" class="req">*</span><br><br>Mifano Mizuri: <br>- Bar ya 2, note ya 3 inatakiwa iwe C na sio B.<br>- Dynamics za wimbo huu zinakosekana. Wimbo huu ulitakiwa uwe na Crescendo bar ya 4<br>- Staff za mashairi zimewekwa kwenye staff ya kiitikio.<br>- Nota za Wimbo Huu Hazionekani etc... 
+<br><br>Mifano Mibaya:<br>- Wimbo huu una makosa mengi<br>- Jamani, toeni wimbo huu<br>- Jamani mnaharibu nyimbo za watunzi wenzenu.
 </label>
 <div>
 <textarea name = 'message' id = 'message' class="field textarea medium validate[required]"  tabindex="5" ></textarea>

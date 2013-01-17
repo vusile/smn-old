@@ -28,60 +28,146 @@ class backend extends CI_Controller {
 			$theUser = $this->ion_auth->user()->row();
 			$user = $theUser->id;
 			
-			$this->db->where('user',$user);
-			$composers = $this->db->get('piano_composers');
-			
-			
-			
-			$datas['datasent'] = '<ul>';
-			
-			if($composers->num_rows() > 0)
+			if($theUser->read_mwongozo == 1)
 			{
-				$composer = $composers->row();
-				$datas['datasent'] .= '<li   style = "background: #3366FF">' . anchor(site_url("backend/piano_composers/" . $composer->id), "My Profile" , 'title="My Profile"') . "</li>"; 
-			}
-			$datas['datasent'] .= '<li   style = "background: #3366FF">' . anchor(site_url("backend/piano_uploaded_songs/1"), "Approved Songs" , 'title="Approved Songs"') . "</li>"; 
-			$datas['datasent'] .= '<li   style = "background: #3366FF">' . anchor(site_url("backend/piano_uploaded_songs/0"), "Songs Pending Review" , 'title="Songs Pending Review"') . "</li>"; 
-			if($this->ion_auth->is_admin())
-			{
-				$datas['datasent'] .= '<li   style = "background: #3366FF">' . anchor(site_url("backend/piano_newsletter"), "Newsletter" , 'title="Newsletter"') . "</li>"; 
-				$datas['datasent'] .= '<li   style = "background: #3366FF">' . anchor(site_url("backend/piano_emails"), "Emails" , 'title="Emails"') . "</li>"; 
-				$datas['datasent'] .= '<li   style = "background: #3366FF">' . anchor(site_url("backend/piano_pages"), "Pages & Blog Entries" , 'title="Pages & Blog Entries"') . "</li>"; 
-				$datas['datasent'] .= '<li   style = "background: #3366FF">' . anchor(site_url("backend/piano_ads"), "Ads" , 'title="Ads"') . "</li>"; 
-				$datas['datasent'] .= '<li   style = "background: #3366FF">' . anchor(site_url("backend/piano_backend_users"), "Users" , 'title="Users"') . "</li>"; 
-				$datas['datasent'] .= '<li   style = "background: #3366FF">' . anchor(site_url("backend/piano_requests"), "Song Requests" , 'title="Song Requests"') . "</li>"; 
-				$datas['datasent'] .= '<li   style = "background: #3366FF">' . anchor(site_url("backend/piano_contributions_account"), "Contributions" , 'title="Contributions"') . "</li>"; 
-				$datas['datasent'] .= '<li   style = "background: #3366FF">' . anchor(site_url("backend/piano_composers"), "Composers" , 'title="Composers"') . "</li>"; 
-				$datas['datasent'] .= '<li   style = "background: #3366FF">' . anchor(site_url("backend/piano_recording_studios"), "Recording Studios" , 'title="Recording Studios"') . "</li>"; 
-				$datas['datasent'] .= '<li   style = "background: #3366FF">' . anchor(site_url("backend/piano_music_schools"), "Music Schools" , 'title="Music Schools"') . "</li>"; 
-				$datas['datasent'] .= '<li   style = "background: #3366FF">' . anchor(site_url("backend/piano_singing_groups"), "Singing Groups" , 'title="Singing Groups"') . "</li>"; 
-				$datas['datasent'] .= '<li   style = "background: #3366FF">' . anchor(site_url("backend/reassign_form"), "Re-assign Composer" , 'title="Re-assign Composer"') . "</li>"; 
-				$datas['datasent'] .= '<li   style = "background: #3366FF">' . anchor(site_url("backend/associate_form"), "Composer - Uploader" , 'title="Composer - Uploader"') . "</li>"; 
-			}
 			
-			$datas['datasent'] .= '</ul>';
-			$header['title'] = 'Swahili Music Notes Dashboard';
-						
-			$this->load->view('backend-header',$header);
-			$this->load->view('dashboard',$datas);
+				$this->db->where('user',$user);
+				$composers = $this->db->get('piano_composers');
+				
+				
+				
+				$datas['datasent'] = '<ul>';
+				
+				if($composers->num_rows() > 0)
+				{
+					$composer = $composers->row();
+					$datas['datasent'] .= '<li   style = "background: #3366FF">' . anchor(site_url("backend/piano_composers/" . $composer->id), "My Profile" , 'title="My Profile"') . "</li>"; 
+				}
+				$datas['datasent'] .= '<li   style = "background: #3366FF">' . anchor(site_url("backend/mwongozo"), "Mwongozo wa Ku-upload Nyimbo" , 'title="Mwongozo wa Ku-upload Nyimbo"') . "</li>"; 
+				$datas['datasent'] .= '<li   style = "background: #3366FF">' . anchor(site_url("backend/piano_uploaded_songs/1"), "Approved Songs" , 'title="Approved Songs"') . "</li>"; 
+				$datas['datasent'] .= '<li   style = "background: #3366FF">' . anchor(site_url("backend/piano_uploaded_songs/0"), "Songs Pending Review" , 'title="Songs Pending Review"') . "</li>"; 
+				if($this->ion_auth->is_admin())
+				{
+					$datas['datasent'] .= '<li   style = "background: #3366FF">' . anchor(site_url("backend/piano_newsletter"), "Newsletter" , 'title="Newsletter"') . "</li>"; 
+					$datas['datasent'] .= '<li   style = "background: #3366FF">' . anchor(site_url("backend/piano_emails"), "Emails" , 'title="Emails"') . "</li>"; 
+					$datas['datasent'] .= '<li   style = "background: #3366FF">' . anchor(site_url("backend/piano_faq"), "FAQ" , 'title="FAQ"') . "</li>"; 
+					$datas['datasent'] .= '<li   style = "background: #3366FF">' . anchor(site_url("backend/piano_pages"), "Pages & Blog Entries" , 'title="Pages & Blog Entries"') . "</li>"; 
+					$datas['datasent'] .= '<li   style = "background: #3366FF">' . anchor(site_url("backend/piano_ads"), "Ads" , 'title="Ads"') . "</li>"; 
+					$datas['datasent'] .= '<li   style = "background: #3366FF">' . anchor(site_url("backend/piano_backend_users"), "Users" , 'title="Users"') . "</li>"; 
+					$datas['datasent'] .= '<li   style = "background: #3366FF">' . anchor(site_url("backend/piano_requests"), "Song Requests" , 'title="Song Requests"') . "</li>"; 
+					$datas['datasent'] .= '<li   style = "background: #3366FF">' . anchor(site_url("backend/piano_contributions_account"), "Contributions" , 'title="Contributions"') . "</li>"; 
+					$datas['datasent'] .= '<li   style = "background: #3366FF">' . anchor(site_url("backend/piano_composers"), "Composers" , 'title="Composers"') . "</li>"; 
+					$datas['datasent'] .= '<li   style = "background: #3366FF">' . anchor(site_url("backend/piano_recording_studios"), "Recording Studios" , 'title="Recording Studios"') . "</li>"; 
+					$datas['datasent'] .= '<li   style = "background: #3366FF">' . anchor(site_url("backend/piano_music_schools"), "Music Schools" , 'title="Music Schools"') . "</li>"; 
+					$datas['datasent'] .= '<li   style = "background: #3366FF">' . anchor(site_url("backend/piano_singing_groups"), "Singing Groups" , 'title="Singing Groups"') . "</li>"; 
+					$datas['datasent'] .= '<li   style = "background: #3366FF">' . anchor(site_url("backend/reassign_form"), "Re-assign Composer" , 'title="Re-assign Composer"') . "</li>"; 
+					$datas['datasent'] .= '<li   style = "background: #3366FF">' . anchor(site_url("backend/associate_form"), "Composer - Uploader" , 'title="Composer - Uploader"') . "</li>"; 
+				}
+				
+				$datas['datasent'] .= '</ul>';
+				$header['title'] = 'Swahili Music Notes Dashboard';
+							
+				$this->load->view('backend-header',$header);
+				$this->load->view('dashboard',$datas);
+			}
+			else 
+			{
+				$this->db->where('url', 'mwongozo-wa-ku-upload-nyimbo');
+				$pages = $this->db->get('piano_pages');
+				$page = $pages->row();
+				$data['h1'] = $header['title'] = $page->title;
+				
+				$data['results'] ='';
+				
+				if($theUser->read_mwongozo == 2)
+					$data['results'] .= "<span style = 'color:red; font-weight: bold'>Haujakubali Mwongozo wa ku-upload nyimbo kwa kuweka tick kwenye ki-box hapo chini. Kama hautaki kuukubali, <a href = '" . base_url() . "'>Endelea Kuangalia Nyimbo Nyingine</a></span><br><br>";
+				
+				$data['results'] .= $page->text;
+				
+				
+				$data['results'] .= '<form action = "backend/read_mwongozo/' .  $user . '" method = "post"><div style = "float: left; clear: none; width: 30px"><input type = "checkbox" name="nimesoma"></div><div style = "float: left; clear: right; width: 650px"><label for ="nimesoma"><strong><span style = "color:red">Nimesoma, nimeelewa na nitazingatia yote yalivyoandikwa kwenye mwongozo huu. Na niko tayari kushiriki kikamilifu juhudi zote za kuboresha nyimbo zinazokuwa uploaded Swahili Music Notes.</span></strong></label></div><br><br><input type = "submit" value = "Nipeleke Nika-Upload"></form>';
+					
+				//$sidebar = $this->sidebar();
+				$this->load->view('Header',$header);
+				$this->load->view('Page',$data);
+				//$this->load->view('Sidebar',$sidebar);
+				$this->load->view('Footer');
+			}
+		
+			
 		}
+	}
+	
+	function read_mwongozo($user_id)
+	{
+		if(isset($_POST['nimesoma']))
+		{
+			$this->db->where('id',$user_id);
+			$this->db->update('piano_backend_users',array('read_mwongozo'=>1));
+			$this->index();
+		}
+		else
+		{
+			$this->db->where('id',$user_id);
+			$this->db->update('piano_backend_users',array('read_mwongozo'=>2));
+			$this->index();
+		}
+	}
+	
+	function mwongozo()
+	{
+	
+		$theUser = $this->ion_auth->user()->row();
+		$user = $theUser->id;
+		$this->db->where('url', 'mwongozo-wa-ku-upload-nyimbo');
+		$pages = $this->db->get('piano_pages');
+		$page = $pages->row();
+		$data['h1'] = $header['title'] = $page->title;
+		
+		$data['results'] ='';
+		
+		if($theUser->read_mwongozo == 2 or $theUser->read_mwongozo == 0 )
+			$data['results'] .= "<span style = 'color:red; font-weight: bold'>Haujakubali Mwongozo wa ku-upload nyimbo kwa kuweka tick kwenye ki-box hapo chini. Kama hautaki kuukubali, <a href = '" . base_url() . "'>Endelea Kuangalia Nyimbo Nyingine</a></span><br><br>";
+			
+		if($theUser->read_mwongozo == 1)
+			$data['results'] .= "<span style = 'color:red; font-weight: bold'>Umeshaukubali Mwongozo Huu</a></span><br><br>";
+		
+		$data['results'] .= $page->text;
+		
+		
+		$data['results'] .= '<form action = "backend/read_mwongozo/' .  $user . '" method = "post"><div style = "float: left; clear: none; width: 30px"><input type = "checkbox" name="nimesoma"';
+		
+		if($theUser->read_mwongozo == 1) 
+			$data['results'] .= "checked";
+		
+		$data['results'] .= '></div><div style = "float: left; clear: right; width: 650px"><label for ="nimesoma"><strong><span style = "color:red">Nimesoma, nimeelewa na nitazingatia yote yalivyoandikwa kwenye mwongozo huu. Na niko tayari kushiriki kikamilifu juhudi zote za kuboresha nyimbo zinazokuwa uploaded Swahili Music Notes.</span></strong></label></div><br><br><input type = "submit" value = "Nipeleke Nika-Upload"></form>';
+			
+		//$sidebar = $this->sidebar();
+		$this->load->view('Header',$header);
+		$this->load->view('Page',$data);
+		//$this->load->view('Sidebar',$sidebar);
+		$this->load->view('Footer');
 	}
 
 	function make_url_title($name,$table,$id)
 	{
-		$url = strtolower(url_title($name));
-		
+		 $url = strtolower(url_title($title));
+                               
+
 		$this->db->where('url',$url);
-		$records = $this->db->get($table);
-		if($records->num_rows() == 0)
-		{		
-			return $url;
-		}
-		
-		else
+		$obj=$this->db->get($table);
+	   
+		if($obj->num_rows() > 0)
 		{
-			return $this->make_url_title($url . '-' . $url, $table, $id);
+			$this->db->where('id',$id);
+			$this->db->where('url',$url);
+			$obj=$this->db->get($table);
+		   
+			if( $obj->num_rows() == 0 )
+				$url = $this->make_url_title($url . '-' . $url,$table,$id);
 		}
+	   
+		return $url;
 	}
 	
 	function _example_output($output = null)
@@ -96,6 +182,12 @@ class backend extends CI_Controller {
 			$this->load->view('example.php',$output);	
 	}
 	
+	function piano_faq()
+	{
+		$output = $this->grocery_crud->render();
+		$this->_example_output($output);
+	}
+	
 	function piano_uploaded_songs($status)
 	{
 		$this->grocery_crud->set_rules('jina_la_wimbo','Jina la Wimbo','required');
@@ -105,6 +197,7 @@ class backend extends CI_Controller {
 		$this->grocery_crud->where('approved',$status);
 		$this->grocery_crud->set_field_upload('image_au_PDF','uploads/files');
 		$this->grocery_crud->set_field_upload('midi','uploads/files');
+		$this->grocery_crud->set_field_upload('nota_original','uploads/files');
 		$this->grocery_crud->display_as('image_au_PDF','PDF');
 		$this->grocery_crud->callback_after_insert(array($this,'upload_song_callback'));
 		$this->grocery_crud->callback_after_update(array($this,'update_song_callback'));
@@ -581,6 +674,7 @@ class backend extends CI_Controller {
 	
 	function piano_requests()
 	{
+		$this->grocery_crud->set_relation('mtunzi','piano_composers','name');
 		$output = $this->grocery_crud->render();
 		$this->_example_output($output);
 	}

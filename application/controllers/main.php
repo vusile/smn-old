@@ -419,6 +419,20 @@ class main extends CI_Controller {
 		$this->load->view('Footer');
 	}
 	
+	function faq()
+	{
+	
+		$data['h1'] = $header['title'] = 'Frequently Asked Questions';
+		
+		$data['faq'] = $this->db->get('piano_faq');
+			
+		$sidebar = $this->sidebar();
+		$this->load->view('Header',$header);
+		$this->load->view('FAQ',$data);
+		$this->load->view('Sidebar',$sidebar);
+		$this->load->view('Footer');
+	}
+	
 	function blog()
 	{
 		$this->db->where('type',2);
@@ -760,6 +774,10 @@ class main extends CI_Controller {
 		$data['results'] = '<br><br>' . $page->text . '<br>';
 		$data['source'] = $source;
 		
+		$this->db->order_by('name');
+		$data['composers'] = $this->db->get('piano_composers');
+		
+		
 		if($success == 1)
 			$data['results'] .= '<p style = "color: red; font-weight: bold;">Your request was sent succesfully.</p>';
 		if($success == 2)
@@ -787,14 +805,14 @@ class main extends CI_Controller {
 			
 			if ($this->form_validation->run() == TRUE)
 			{	
-			
 				$jina = $_POST['song'];
-				if(isset($_POST['mtunzi']))
-					if($_POST['mtunzi'] != '')
-						$jina .= ' by ' . $_POST['mtunzi'];			
+				if(isset($_POST['mtunzi_mpya']))
+					if($_POST['mtunzi_mpya'] != '')
+						$jina .= ' by ' . $_POST['mtunzi_mpya'];			
 				
 				$data = array (
 					'jina_la_wimbo'=>$jina,
+					'mtunzi'=>$_POST['mtunzi'],
 					'mwombaji' =>$_POST['name'],
 					'email'=>$_POST['email'],
 					'source'=>$_POST['source'],
@@ -807,6 +825,9 @@ class main extends CI_Controller {
 						
 				$this->db->insert('piano_requests',$data);
 			
+				$this->db->where('id',$_POST['mtunzi']);
+				$composers = $this->db->get('piano_composers');
+				$composer = $composers->row();
 				
 /*				$config['protocol'] = 'smtp';
 				$config['smtp_host'] = 'mymail.brinkster.com';
@@ -820,21 +841,41 @@ class main extends CI_Controller {
 
 				$this->email->initialize($config);*/
 
+				$this->db->where('id',5);
+				$emails = $this->db->get('piano_emails');
+				$email = $emails->row();
+				
+		
 				$this->load->library('email');
 				$this->email->from('admin@swahilimusicsheet.com', 'Swahili Music Notes');
-				$this->email->to('admin@swahilimusicsheet.com'); 
+				$this->email->cc('nchokola@gmail.com'); 
+				$this->email->bcc('admin@swahilimusicnotes.com'); 
+				if($composer->email != '')
+					$this->email->to($composer->email);
 				
-				
-				$this->email->subject('Song Request!');
+				$this->email->subject(str_replace('[NAME]', $composer->name, $email->subject));
 				$message = '<html><head></head><body>';
-				$message .= 'Name: ' . $_POST['name'] . '<br><br>';
-				$message .= 'E-mail: ' . $_POST['email'] . '<br><br>';
+				$msg = $email->message;
+				$msg = str_replace('[NAME]',$composer->name,$msg);
+				$msg = str_replace('[REQUESTER]',$_POST['name'],$msg);
+				$msg = str_replace('[REQUESTER_EMAIL]',$_POST['email'],$msg);
+				$msg = str_replace('[SONGNAME]',$jina,$msg);
+				if(isset($_POST['lyrics']))
+					if($_POST['lyrics'] != '')
+				$msg = str_replace('[MAELEZO]',$_POST['lyrics'],$msg);	
+				
 				if(isset($_POST['phone']))
-					$message .= 'Phone: ' . $_POST['phone'] . '<br><br>';
-				$message .= 'Song: ' . $_POST['song'] . '<br><br>';
-				$message .= 'Lyrics: '. $_POST['lyrics'] . '<br><br>';
-				$message .= 'mtunzi: ' . $_POST['mtunzi'] . '<br><br>';
-				$message .= '<strong>Administrator,<br>Swahili Music Notes</strong></body></html>';	
+				{
+					if($_POST['phone'] != '')
+						$msg = str_replace('[REQUESTER_PHONE]',$_POST['phone'],$msg);
+					else
+						$msg = str_replace('[REQUESTER_PHONE]','Mwombaji Hakuweka Namba',$msg);
+				}
+				else
+					$msg = str_replace('[REQUESTER_PHONE]','Mwombaji Hakuweka Namba',$msg);
+				
+				$message .= $msg;
+				$message .= '</body></html>';	
 				$this->email->message($message);	
 
 				if($this->email->send())
@@ -1231,13 +1272,31 @@ class main extends CI_Controller {
 			
 			$details = $song->row();
 			
+			$composer = $details->mtunzi;
+			$uploader = $details->uploaded_by;
+			
+			$this->db->where('id',$composer);
+			$composer_obj = $this->db->get('piano_composers');
+			
+			$composer_email = $composer_obj->row()->email;
+			
+			$this->db->where('id',$uploader);
+			$uploader_obj = $this->db->get('piano_backend_users');
+			
+			$uploader_email = $uploader_obj->row()->email;
+			
+			
+			
 			$header['title'] = $data['h1'] = "Report Sent";
 			$sidebar = $this->sidebar();
 
 			$this->load->library('email');
 			$this->email->from('admin@swahilimusicsheet.com', 'Swahili Music Notes');
-			$this->email->to('admin@swahilimusicsheet.com'); 
-			
+			$this->email->to($uploader_email);
+			$this->email->cc('admin@swahilimusicnotes.com'); 
+
+			if(isset($composer_email) and $composer_email != '')
+				$this->email->to($composer_email); 
 			
 			$this->email->subject($_POST['subject']);
 			$message = '<html><head></head><body>';
@@ -1245,21 +1304,23 @@ class main extends CI_Controller {
 			$message .= 'E-mail: ' . $_POST['email'] . '<br><br>';
 			if(isset($_POST['phone']))
 				$message .= 'Phone: ' . $_POST['phone'] . '<br><br>';
-			$message .= 'Song ID: ' . $id . '<br><br>';
+			$message .= 'Song Name: ' . $details->jina_la_wimbo . '<br><br>';
+			$message .= 'Link ya Wimbo: <a href = "'. base_url() . 'song/' . $details->url . '">'. $details->jina_la_wimbo . '</a><br><br>';
 			
-			$message .= 'Message: ' . $_POST['message'] . '<br><br>';
+			$message .= 'Subject: ' . $id . ' ' . $_POST['subject'] . '<br><br>';
+			$message .= 'Marekebisho: ' . $_POST['message'] . '<br><br>';
 			$message .= '<strong>Administrator,<br>Swahili Music Notes</strong></body></html>';	
 			$this->email->message($message);	
-
-			echo $message;
+			$this->email->set_alt_message(strip_tags($message));
+			//echo $message;
 			
-			die();
+			//die();
 			
 			if($this->email->send())
 			{
-				$data['results'] = "You're message has been sent.";
+				$data['results'] = "You're error report has been sent. Admins wa site watachukua muda kuukagua wimbo na kufanyia kazi mapendekezo yako.";
 				
-				$data['h1'] = $header['title'] = "Message Sent Successfully";
+				$data['h1'] = $header['title'] = "Sent Successfully";
 				$sidebar = $this->sidebar();
 				$this->load->view('Header',$header);
 				$this->load->view('Page',$data);
@@ -1267,13 +1328,12 @@ class main extends CI_Controller {
 				$this->load->view('Footer');
 			}
 			else
-				$this->request('email',2);
+				$this->report_song('email',2);
 			
 		}
 			
 		else
-			$this->request('validation',2);
-
+			$this->report_song('validation',2);
 	}
 	
 }

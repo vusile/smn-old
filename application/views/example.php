@@ -30,6 +30,7 @@ a:hover
 	<div>
 		<a href='<?php echo site_url('backend/logout')?>'>Logout</a> |
 		<a href='<?php echo site_url('backend')?>'>Dashboard</a> |
+		<a href='<?php echo site_url('backend/mwongozo')?>'>Mwongozo wa Ku-upload Nyimbo</a> |
 		<a href='<?php echo site_url('backend/piano_uploaded_songs/0/add')?>'>Upload</a> |
 		<a href='<?php echo site_url('backend/piano_uploaded_songs/1')?>'>Approved Songs</a> |
 		<a href='<?php echo site_url('backend/piano_uploaded_songs/0')?>'>Songs Pending Review</a>
@@ -37,6 +38,7 @@ a:hover
 			 | <a href='<?php echo site_url('backend/piano_emails')?>'>Emails</a> |
 			<a href='<?php echo site_url('backend/piano_pages')?>'>Pages & Blogs</a> |
 			<a href='<?php echo site_url('backend/piano_ads')?>'>Ads</a> |
+			<a href='<?php echo site_url('backend/piano_faq')?>'>FAQ</a> |
 			<a href='<?php echo site_url('backend/piano_backend_users')?>'>Uploaders</a> | 
 			<a href='<?php echo site_url('backend/piano_requests')?>'>Requests</a> |		 
 			<a href='<?php echo site_url('backend/piano_contributions_account')?>'>Contributions</a> |

@@ -19,13 +19,14 @@
 <script type = 'text/javascript' language = 'javascript' src = 'js/jquery-ui-1.8.17.custom.min.js'></script>
 <script type="text/javascript" src="js/general.js"></script>
 
+<!--Snowfall for Christmas 
 <script type = "text/javascript" src='js/snowfall.jquery.js'></script>
 <script type = "text/javascript">
 $(document).ready(function(){
 	$(document).snowfall({round : true, minSize: 5, maxSize:8});
  });
 </script>
-
+-->
 <script type="text/javascript">
 
   var _gaq = _gaq || [];
@@ -84,6 +85,7 @@ if(strlen($mytext) < $chars)
      	 <li><a href="blog">Blog</a></li>
          <li><a href="resources">Resources</a></li>
          <li><a href="directory">Directory</a></li>
+         <li><a href="faq">Frequently Asked Questions</a></li>
          <li><a href="about">About Us</a></li>
          <li><a href="contact">Contact Us</a></li>
          </ul>

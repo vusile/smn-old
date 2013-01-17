@@ -16,7 +16,7 @@
    <!--end intro-->
    <!--start holder-->
    <div class="holder_content">
-	<br><br><p style = 'font-weight: bold; font-size: 14px;'>Je wimbo huu una makosa? <a href = 'report_song/<?php echo $songID ?>'>Report This Song</a></p>
+	<br><p style = 'font-weight: bold; font-size: 14px;'>Je wimbo huu una makosa? <a href = 'report_song/<?php echo $songID ?>'>Report This Song</a></p>
 	<div style = 'clear: both; padding-top:10px;'></div>
 	<section id = 'lyrics_section'>
 	<h3><?php if($lyrics !=''): ?>Maneno ya <?php echo $song_title ?>.<?php endif; ?></h3>

@@ -38,10 +38,25 @@ Maneno (kama unayafahamu):
 <li  class="notranslate      ">
 <label class="desc" for="mtunzi">
 Jina la Mtunzi:
-
 </label>
 <div>
-<input id="mtunzi" name="mtunzi" type="text" spellcheck="false" class="field text medium" value="<?php echo set_value('mtunzi'); ?>" maxlength="255" tabindex="3" /> 
+<select id="mtunzi" name="mtunzi" tabindex="3">
+<option value = "">Chagua Jina la Mtunzi</option>
+<?php foreach($composers->result() as $composer): ?>
+	<?php if($composer->id == 242) continue; ?>
+	<option value = "<?php echo $composer->id ?>"><?php echo $composer->name ?></option>
+<?php endforeach; ?>
+</select>
+</div>
+</li>
+
+<li  class="notranslate      ">
+<label class="desc" for="mtunzi_mpya">
+Jina la Mtunzi Halipo Hapo Juu:
+</label>
+<div>
+<input id="mtunzi_mpya" name="mtunzi_mpya" type="text" spellcheck="false" class="field text medium" value="<?php echo set_value('mtunzi_mpya'); ?>" maxlength="255" tabindex="4" /> 
+ 
 </div>
 </li>
 
@@ -51,7 +66,7 @@ Name:
 <span id="req_4" class="req">*</span>
 </label>
 <div>
-<input id="name" name="name" type="text" spellcheck="false" class="field text medium validate[required] text-input" value="<?php echo set_value('name'); ?>" maxlength="255" tabindex="4" /> 
+<input id="name" name="name" type="text" spellcheck="false" class="field text medium validate[required] text-input" value="<?php echo set_value('name'); ?>" maxlength="255" tabindex="5" /> 
 
 </div>
 </li>
@@ -63,7 +78,7 @@ Email:
 <span id="req_1" class="req">*</span>
 </label>
 <div>
-<input id="email" name="email" type="email" spellcheck="false" class="field text medium validate[custom[email]]" value="<?php echo set_value('email'); ?>" maxlength="255" tabindex="5" /> 
+<input id="email" name="email" type="email" spellcheck="false" class="field text medium validate[custom[email]]" value="<?php echo set_value('email'); ?>" maxlength="255" tabindex="6" /> 
 </div>
 </li>
 
@@ -73,7 +88,7 @@ Phone Number:
 
 </label>
 <div>
-<input id="phone" name="phone" type="text" spellcheck="false" class="field text medium text-input" value="<?php echo set_value('phone'); ?>" maxlength="255" tabindex="6" /> 
+<input id="phone" name="phone" type="text" spellcheck="false" class="field text medium text-input" value="<?php echo set_value('phone'); ?>" maxlength="255" tabindex="7" /> 
 </div>
 </li>
 
